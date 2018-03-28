@@ -67,10 +67,7 @@ function wcs_recalculate_totals() {
 			$order_total = $subscription->get_total();
 			$calc_total = $subscription->calculate_totals();
 			$logger->add( 'wcs-recalculate-totals', '* * #'. var_export( $subscription_id, true ).' Subscription totals recalculated. Original total = "'.$order_total.'" / New total = "'.$calc_total.'"' );
-
 		}
-
-		
 
 		$checked_subscriptions[] = $subscription_id;
 
