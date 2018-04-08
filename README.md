@@ -7,6 +7,10 @@ To run the plugin, add `?wcs-recalculate-totals=true` to any admin URL.
 
 For each iteration of the fixer's code, a log entry will be added to a log file prefixed with `'wcs-recalculate-totals'`. To view this log file, visit **WooCommerce > System Status > Logs**.
 
+### Important
+
+This is an experimental extension and it hasn't been tested in all scenarios. Please **backup your database before running it** and **try it first on a staging/development version of your site** (confirm that all the products have been added again with the correct prices, taxes, shipping, etc) before running it on a production site. 
+
 ### Installation
 
 1. Upload the plugin's files to the `/wp-content/plugins/` directory of your WordPress site
