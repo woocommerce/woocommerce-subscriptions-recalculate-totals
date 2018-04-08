@@ -59,14 +59,47 @@ function wcs_recalculate_totals() {
 
 	foreach ( $subscriptions_to_check as $subscription_id ) {
 
-		$logger->add( 'wcs-recalculate-totals', '* Checking subscription with ID = ' . var_export( $subscription_id, true ) );
+		$logger->add( 'wcs-recalculate-totals', '------ Checking subscription with ID = ' . var_export( $subscription_id, true ) );
 
 		$subscription = wcs_get_subscription( $subscription_id );
-	
+		$order = wc_get_order( $subscription_id );
+		$order_data = $order->get_data();
+		
 		if ( $subscription ) {
-			$order_total = $subscription->get_total();
+			
 			$calc_total = $subscription->calculate_totals();
-			$logger->add( 'wcs-recalculate-totals', '* * #'. var_export( $subscription_id, true ).' Subscription totals recalculated. Original total = "'.$order_total.'" / New total = "'.$calc_total.'"' );
+			
+			if(isset($_GET['readd'])){
+				// Backup line items (product_id => quantity)
+				foreach ( $subscription->get_items() as $item_id => $item ) {
+					$qtty = $item['quantity'];
+					$product_id = $item['product_id'];
+					$products_data[$product_id] = $qtty;
+				}
+				$logger->add( 'wcs-recalculate-totals', '* Saved line items ' . var_export( $products_data, true ) );
+				
+				// Delete all order items
+				$subscription->remove_order_items('line_item');
+				$logger->add( 'wcs-recalculate-totals', '* Removed order items' );
+				
+				// Add the saved order items
+				foreach($products_data as $product_id => $qty) {
+			        if($qty > 0) {
+			            $product = wc_get_product($product_id);
+			            $subscription->add_product($product, $qty);
+			            $logger->add( 'wcs-recalculate-totals', "* Added $qty units of product #$product_id" );
+			        }
+			    }
+			    	
+			    // Update totals and add an order note
+				$subscription->update_taxes();
+				$calc_total = $subscription->calculate_totals();
+				$subscription->save();
+				$order->add_order_note("Order totals recalculated automatically (woocommerce-subscriptions-recalculate-totals)");
+				$logger->add( 'wcs-recalculate-totals', "* Recalculated totals" );
+			
+			}
+		
 		}
 
 		$checked_subscriptions[] = $subscription_id;
