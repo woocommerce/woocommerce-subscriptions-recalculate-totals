@@ -64,6 +64,7 @@ function wcs_recalculate_totals() {
 		$subscription = wcs_get_subscription( $subscription_id );
 		$order = wc_get_order( $subscription_id );
 		$order_data = $order->get_data();
+		$products_data = array();
 		
 		if ( $subscription ) {
 			
