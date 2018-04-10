@@ -74,6 +74,9 @@ function wcs_recalculate_totals() {
 				foreach ( $subscription->get_items() as $item_id => $item ) {
 					$qtty = $item['quantity'];
 					$product_id = $item['product_id'];
+					if(isset($item['variation_id']) && $item['variation_id']!=''){
+						$product_id = $item['variation_id'];
+					}
 					$products_data[$product_id] = $qtty;
 				}
 				$logger->add( 'wcs-recalculate-totals', '* Saved line items ' . var_export( $products_data, true ) );
