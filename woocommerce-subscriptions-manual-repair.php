@@ -31,7 +31,15 @@
  */
 
 function wcs_recalculate_totals() {
-
+	
+	// If requested, backup and reset the "wcs_subscriptions_with_totals_updated" option
+	if ( isset( $_GET['reset-updated-subs-option'] ) ) {
+		$old_option = get_option( 'wcs_subscriptions_with_totals_updated', array() );
+		update_option( '_old_wcs_subscriptions_with_totals_updated', $old_option, false );
+		update_option( 'wcs_subscriptions_with_totals_updated', '', false );
+		return;
+	}
+	
 	// Use a URL param to act as a flag for when to run the fixes - avoids running fixes in multiple requests at the same time
 	if ( ! isset( $_GET['wcs-recalculate-totals'] ) ) {
 		return;
