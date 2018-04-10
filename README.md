@@ -11,6 +11,9 @@ For each iteration of the fixer's code, a log entry will be added to a log file 
 
 This is an experimental extension and it hasn't been tested in all scenarios. Please **backup your database before running it** and **try it first on a staging/development version of your site** (confirm that all the products have been added again with the correct prices, taxes, shipping, etc) before running it on a production site. 
 
+### How to update the same subscriptions again?
+All the subscripitons that have been already updated by the plugin will not be processed a second time because their ID is stored in the `wcs_subscriptions_with_totals_updated` option. If you want to reset it to be able to process all your subscriptions again, you'll need to add the `?reset-updated-subs-option=true` parameter to the URL. 
+
 ### Installation
 
 1. Upload the plugin's files to the `/wp-content/plugins/` directory of your WordPress site
