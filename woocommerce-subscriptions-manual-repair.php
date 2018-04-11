@@ -120,4 +120,37 @@ function wcs_recalculate_totals() {
 		update_option( 'wcs_subscriptions_with_totals_updated', $checked_subscriptions, false );
 	}
 }
-add_action( 'admin_footer', 'wcs_recalculate_totals' );
+add_action( 'init', 'wcs_recalculate_totals' );
+
+function general_admin_notice(){
+	
+	if ( ! isset( $_GET['wcs-recalculate-totals'] ) ) {
+		return;
+	}
+	
+    $checked_subscriptions  = get_option( 'wcs_subscriptions_with_totals_updated', array() );
+	$subscriptions_to_check = get_posts( array(
+		'fields'         => 'ids',
+		'orderby'        => 'ID',
+		'order'          => 'DESC',
+		'post_type'      => 'shop_subscription',
+		'posts_per_page' => 50,
+		'post__not_in'   => $checked_subscriptions,
+		'post_status'    => array(
+			'wc-active',
+			'wc-on-hold',
+		),
+	) );
+    
+    if ( $checked_subscriptions!='' && empty($subscriptions_to_check) ) {
+         echo '<div class="notice notice-success is-dismissible">
+             <p><b>All subscriptions have been recalculated! :)</b></p>
+             <p>If you want to recalculate all your subscriptions again, you will need to use <mark style="background: #e5e5e5;">"reset-updated-subs-option=true"</mark> parameter</p>
+         </div>';
+    }
+    
+    $logger = new WC_Logger();
+    $logger->add( 'wcs-recalculate-totals', '******** All subscriptions have been recalculated! ********' );
+    
+}
+add_action('admin_notices', 'general_admin_notice');
