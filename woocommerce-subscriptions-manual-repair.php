@@ -4,7 +4,7 @@
  * Plugin URI: https://github.com/Prospress/woocommerce-subscriptions-recalculate-totals
  * Description: In some cases, if the tax settings change after some subscripitons have been created, their totals need to be recalculated in order to include the proper taxes. This plugin recalculates all the subscripitons totals.
  * Author: Prospress Inc.
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author URI: http://prospress.com
  *
  * GitHub Plugin URI: Prospress/woocommerce-subscriptions-recalculate-totals
@@ -59,6 +59,10 @@ function wcs_recalculate_totals() {
 			'wc-on-hold',
 		),
 	) );
+
+	if ( ! is_array( $checked_subscriptions ) ) {
+		$checked_subscriptions = array();
+	}
 
 	$logger = new WC_Logger();
 	$logger->add( 'wcs-recalculate-totals', '----------- Initiating Recalculate subscription totals Fixer -----------' );
