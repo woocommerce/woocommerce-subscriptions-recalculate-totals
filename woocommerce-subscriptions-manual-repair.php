@@ -92,6 +92,7 @@ function wcs_recalculate_totals() {
 				
 				// Delete all order items
 				$subscription->remove_order_items('line_item');
+				$subscription->remove_order_items('tax');
 				$logger->add( 'wcs-recalculate-totals', '* Removed order items' );
 				
 				// Add the saved order items
