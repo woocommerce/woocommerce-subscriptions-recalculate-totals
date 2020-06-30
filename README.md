@@ -4,6 +4,7 @@ In some cases, if the tax settings change after some subscriptions have been cre
 
 To run the plugin, add `?wcs-recalculate-totals=true` to any admin URL.
 - Add `&readd` parameter (`?wcs-recalculate-totals=true&readd=true`) to force the plugin to delete all line items of the order and add them again before recalculating the totals (this helps in case tax settings have changed and the tax it not included properly just by recalculating the order totals)
+- Only 50 subscriptions are updated at each run. If you want to update more at once then change the line `'posts_per_page' => 50,` in `woocommerce-subscriptions-manual-repair.php`
 
 For each iteration of the fixer's code, a log entry will be added to a log file prefixed with `'wcs-recalculate-totals'`. To view this log file, visit **WooCommerce > System Status > Logs**.
 
