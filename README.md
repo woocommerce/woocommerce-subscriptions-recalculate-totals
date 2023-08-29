@@ -1,3 +1,5 @@
+> IMPORTANT: This code is made available in the hope that it will be useful, but **without any warranty**. See the GNU General Public License included with the code for more details. Automattic or WooCommerce support services are also not available to assist with the use of this code.
+
 ## WooCommerce Subscriptions Recalculate Subscription Totals
 
 In some cases, if the tax settings change after some subscriptions have been created, their totals need to be recalculated in order to include the proper taxes. This plugin recalculates all the subscriptions totals.
